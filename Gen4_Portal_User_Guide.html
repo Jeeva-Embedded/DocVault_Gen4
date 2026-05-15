@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gen4 Manufacturing — Document Portal User Guide</title>
+  <style>
+    :root {
+      --blue:       #1a5276;
+      --blue-light: #2471a3;
+      --green:      #7dba3a;
+      --gray-bg:    #f4f6f8;
+      --gray-text:  #5d6b7a;
+      --border:     #dde3ea;
+      --danger:     #c0392b;
+      --white:      #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--gray-bg);
+      color: #1a2733;
+      font-size: 14px;
+      line-height: 1.7;
+    }
+
+    /* ── Cover page ─────────────────────────────── */
+    .cover {
+      background: var(--blue);
+      color: #fff;
+      padding: 60px 80px;
+      min-height: 260px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cover-tag {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--green);
+      margin-bottom: 12px;
+    }
+    .cover h1 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.2;
+    }
+    .cover h1 span { color: var(--green); }
+    .cover-sub {
+      font-size: 15px;
+      color: rgba(255,255,255,.7);
+      margin-top: 10px;
+    }
+    .cover-meta {
+      margin-top: 32px;
+      font-size: 12px;
+      color: rgba(255,255,255,.5);
+      display: flex;
+      gap: 32px;
+    }
+    .cover-meta strong { color: rgba(255,255,255,.8); }
+
+    /* ── Main content ───────────────────────────── */
+    .content { max-width: 860px; margin: 0 auto; padding: 40px 32px 80px; }
+
+    /* ── TOC ────────────────────────────────────── */
+    .toc {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px 28px;
+      margin-bottom: 36px;
+    }
+    .toc h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 1px; color: var(--gray-text); margin-bottom: 12px; }
+    .toc ol { padding-left: 20px; }
+    .toc li { margin: 5px 0; }
+    .toc a { color: var(--blue-light); text-decoration: none; font-size: 13px; }
+    .toc a:hover { text-decoration: underline; }
+
+    /* ── Sections ───────────────────────────────── */
+    .section { margin-bottom: 44px; }
+
+    h2.section-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--blue);
+      border-bottom: 2px solid var(--green);
+      padding-bottom: 8px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--blue-light);
+      margin: 20px 0 8px;
+    }
+
+    p { margin-bottom: 12px; color: #2c3e50; }
+
+    ul, ol { padding-left: 22px; margin-bottom: 14px; }
+    li { margin-bottom: 5px; }
+
+    /* ── Info boxes ─────────────────────────────── */
+    .box {
+      border-radius: 8px;
+      padding: 14px 18px;
+      margin: 14px 0;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .box-info    { background: #eaf4fb; border-left: 4px solid var(--blue-light); }
+    .box-tip     { background: #eafad1; border-left: 4px solid var(--green); }
+    .box-warning { background: #fdf2e9; border-left: 4px solid #e67e22; }
+    .box-danger  { background: #fdecea; border-left: 4px solid var(--danger); }
+    .box strong  { display: block; margin-bottom: 4px; font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+
+    /* ── Step cards ─────────────────────────────── */
+    .steps { display: flex; flex-direction: column; gap: 10px; margin: 14px 0; }
+    .step {
+      display: flex;
+      gap: 14px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px 16px;
+      align-items: flex-start;
+    }
+    .step-num {
+      width: 26px; height: 26px; border-radius: 50%;
+      background: var(--green);
+      color: #fff; font-size: 12px; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 2px;
+    }
+    .step-body strong { display: block; margin-bottom: 3px; font-size: 13px; }
+    .step-body span { color: var(--gray-text); font-size: 13px; }
+
+    /* ── Feature table ──────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 13px;
+      background: var(--white);
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+    thead { background: var(--blue); color: #fff; }
+    th { padding: 10px 14px; text-align: left; font-weight: 600; }
+    td { padding: 9px 14px; border-top: 1px solid var(--border); vertical-align: top; }
+    tr:nth-child(even) td { background: var(--gray-bg); }
+
+    /* ── Badges ─────────────────────────────────── */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .5px;
+    }
+    .badge-mech  { background: #d6eaf8; color: #1a5276; }
+    .badge-elec  { background: #d5f5e3; color: #1e8449; }
+    .badge-soft  { background: #fdebd0; color: #935116; }
+    .badge-custom{ background: #f4ecf7; color: #6c3483; }
+
+    /* ── URL chip ───────────────────────────────── */
+    .url-chip {
+      display: inline-block;
+      background: var(--blue);
+      color: #fff;
+      padding: 6px 16px;
+      border-radius: 6px;
+      font-family: monospace;
+      font-size: 13px;
+      word-break: break-all;
+      margin: 8px 0;
+    }
+
+    /* ── Print ──────────────────────────────────── */
+    @media print {
+      body { background: #fff; }
+      .cover { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+      .content { padding: 20px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ COVER ══════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-tag">Internal User Guide — v1.0</div>
+  <h1>Gen4 <span>Manufacturing</span><br>Document Management Portal</h1>
+  <p class="cover-sub">A complete guide to accessing, uploading, and managing team documents.</p>
+  <div class="cover-meta">
+    <div><strong>URL</strong><br>jeeva-embedded.github.io/DocVault_Gen4/</div>
+    <div><strong>Prepared by</strong><br>Jeeva</div>
+    <div><strong>Date</strong><br>15 May 2026</div>
+  </div>
+</div>
+
+<!-- ══ CONTENT ════════════════════════════════════════════ -->
+<div class="content">
+
+  <!-- TOC -->
+  <div class="toc">
+    <h2>Table of Contents</h2>
+    <ol>
+      <li><a href="#s1">What is the Gen4 Document Portal?</a></li>
+      <li><a href="#s2">How to Access the Portal</a></li>
+      <li><a href="#s3">Dashboard</a></li>
+      <li><a href="#s4">Uploading Files</a></li>
+      <li><a href="#s5">All Documents Page</a></li>
+      <li><a href="#s6">Viewing &amp; Downloading a Document</a></li>
+      <li><a href="#s7">Editing a Document Record</a></li>
+      <li><a href="#s8">Deleting a Document</a></li>
+      <li><a href="#s9">Categories &amp; Sub-Categories</a></li>
+      <li><a href="#s10">Google Drive Files</a></li>
+      <li><a href="#s11">Sidebar Navigation</a></li>
+      <li><a href="#s12">Best Practices</a></li>
+      <li><a href="#s13">Supported File Types &amp; Limits</a></li>
+    </ol>
+  </div>
+
+
+  <!-- 1 ─ WHAT IS IT -->
+  <div class="section" id="s1">
+    <h2 class="section-title"><span class="num">1</span> What is the Gen4 Document Portal?</h2>
+    <p>
+      The <strong>Gen4 Document Management Portal</strong> is a private, internal web application built for the
+      Gen4 Manufacturing team. It provides a single, organized place to store, search, and manage all
+      technical and operational documents — engineering drawings, quality reports, software files,
+      spreadsheets, images, and more.
+    </p>
+    <p>
+      Every file you upload is saved directly to the team's <strong>Google Drive</strong> folder for permanent
+      storage, while the portal keeps a searchable index so the whole team can find documents instantly.
+      Changes sync to everyone in real time — no refresh needed.
+    </p>
+
+    <h3>Key Benefits</h3>
+    <ul>
+      <li>Centralized document storage — one place for all departments</li>
+      <li>Instant search across file names, notes, and authors</li>
+      <li>Organized by category (Mechanical, Electronics, Software) and sub-categories</li>
+      <li>Full audit trail — who uploaded, who last modified, and when</li>
+      <li>Direct download from Google Drive without leaving the portal</li>
+      <li>Accessible from any device with a browser — no installation required</li>
+    </ul>
+
+    <div class="box box-info">
+      <strong>Technology</strong>
+      The portal is built with React and backed by Google Firebase (real-time database) and Google Drive
+      for file storage. It is hosted on GitHub Pages and requires no login — anyone with the URL can access it.
+    </div>
+  </div>
+
+
+  <!-- 2 ─ ACCESS -->
+  <div class="section" id="s2">
+    <h2 class="section-title"><span class="num">2</span> How to Access the Portal</h2>
+    <p>Open any modern web browser (Chrome, Edge, Firefox) and navigate to either URL below:</p>
+
+    <h3>Primary URL — Firebase Hosting <span style="font-size:12px;font-weight:400;color:var(--gray-text)">(recommended)</span></h3>
+    <div class="url-chip">https://gen4-portal.web.app</div>
+
+    <h3>Backup URL — GitHub Pages</h3>
+    <div class="url-chip">https://jeeva-embedded.github.io/DocVault_Gen4/</div>
+
+    <p style="margin-top:12px">Both URLs run the exact same portal. Bookmark the Firebase URL for daily use — it is shorter and has no username in it.</p>
+    <p>No login or password is required.</p>
+
+    <div class="box box-warning">
+      <strong>Important</strong>
+      The portal is intended for internal use only. Please do not share the URL with people outside the Gen4 team.
+    </div>
+  </div>
+
+
+  <!-- 3 ─ DASHBOARD -->
+  <div class="section" id="s3">
+    <h2 class="section-title"><span class="num">3</span> Dashboard</h2>
+    <p>
+      The Dashboard is the home screen. It gives you an at-a-glance overview of the portal's current state.
+    </p>
+
+    <h3>Stats Row</h3>
+    <table>
+      <thead><tr><th>Card</th><th>What it shows</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Total Documents</strong></td><td>Total number of files currently in the portal</td></tr>
+        <tr><td><strong>Categories</strong></td><td>Number of document categories (built-in + custom)</td></tr>
+        <tr><td><strong>Total Downloads</strong></td><td>Cumulative download count across all documents</td></tr>
+        <tr><td><strong>Team Sync</strong></td><td>Shows "Live" — confirms the database connection is active</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Categories Grid</h3>
+    <p>
+      Below the stats, each category is shown as a card with an icon and document count.
+      Click any category card to jump directly to that category's document list.
+    </p>
+
+    <h3>Recent Documents</h3>
+    <p>
+      The last 6 uploaded documents are listed at the bottom. Click any row to open the document viewer panel.
+    </p>
+  </div>
+
+
+  <!-- 4 ─ UPLOAD -->
+  <div class="section" id="s4">
+    <h2 class="section-title"><span class="num">4</span> Uploading Files</h2>
+    <p>
+      Click <strong>Upload File</strong> in the sidebar to go to the Upload page.
+      Files are uploaded directly to the Gen4 Google Drive folder.
+    </p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Select files</strong>
+          <span>Drag and drop files onto the drop zone, or click the zone to open a file picker. Multiple files can be added at once.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Choose Category and Sub-Category</strong>
+          <span>Select the correct department category (e.g. Mechanical) and the relevant sub-category (e.g. QC).</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Enter your name in the Author field (required)</strong>
+          <span>This records who uploaded the document. The field is mandatory — the upload button will not work without it.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <strong>Add optional notes</strong>
+          <span>Use the Description/Notes box to add any context — revision number, project reference, part number, etc.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-body">
+          <strong>Click Upload</strong>
+          <span>Each file shows a progress bar. A green tick appears when a file is saved to Drive. A success toast confirms all uploads completed.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="box box-warning">
+      <strong>Upload may take 10–30 seconds per file</strong>
+      Files are sent to Google Drive via an Apps Script. Large files or a slow connection may take longer.
+      Do not close the browser tab while uploading.
+    </div>
+
+    <div class="box box-tip">
+      <strong>Tip — Remove a file before uploading</strong>
+      Added a file by mistake? Click the X button next to it to remove it from the queue before pressing Upload.
+    </div>
+  </div>
+
+
+  <!-- 5 ─ DOCUMENTS PAGE -->
+  <div class="section" id="s5">
+    <h2 class="section-title"><span class="num">5</span> All Documents Page</h2>
+    <p>
+      Click <strong>All Documents</strong> in the sidebar to see every document in the portal.
+      Use the category tabs at the top to filter by department.
+    </p>
+
+    <h3>Category Tabs</h3>
+    <p>
+      The tab bar shows <strong>All</strong>, the three built-in categories
+      (<span class="badge badge-mech">Mechanical</span>
+      <span class="badge badge-elec">Electronics</span>
+      <span class="badge badge-soft">Software</span>),
+      and any custom categories the admin has added.
+      Click a tab to filter the document list to that category.
+    </p>
+
+    <h3>Sub-Category Tabs</h3>
+    <p>
+      Once you select a category, a second row of tabs appears for sub-categories
+      (e.g. General, QC, IQC, and any custom ones). Click a sub-category tab to filter further.
+    </p>
+
+    <h3>Search</h3>
+    <p>
+      The search bar in the top-right filters documents in real time by <strong>file name</strong>,
+      <strong>notes</strong>, or <strong>author name</strong>. Click the × inside the search bar to clear it.
+    </p>
+
+    <h3>Date Filter</h3>
+    <p>
+      Click the <strong>Filter</strong> button (next to the search bar) to reveal the date range filter.
+      Enter a From Date, a To Date, or both to narrow results to a specific period.
+      The Filter button turns green with a dot (●) when a date filter is active.
+      Click <strong>Clear</strong> to remove all filters.
+    </p>
+
+    <h3>Document Table Columns</h3>
+    <table>
+      <thead>
+        <tr><th>Column</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>Document Name</strong></td><td>File name with a colour-coded file type icon</td></tr>
+        <tr><td><strong>Category</strong></td><td>Department badge (Mechanical, Electronics, Software, or custom)</td></tr>
+        <tr><td><strong>Sub-Category</strong></td><td>Sub-group within the category</td></tr>
+        <tr><td><strong>Author</strong></td><td>Name of the person who originally uploaded the file</td></tr>
+        <tr><td><strong>Modified By</strong></td><td>Name of the last person who edited the document record</td></tr>
+        <tr><td><strong>Modified Date</strong></td><td>Date and time of the last edit or upload</td></tr>
+        <tr><td><strong>Size</strong></td><td>File size (KB / MB)</td></tr>
+        <tr><td><strong>Actions</strong></td><td>View, Download, Edit, Delete buttons</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- 6 ─ VIEW & DOWNLOAD -->
+  <div class="section" id="s6">
+    <h2 class="section-title"><span class="num">6</span> Viewing &amp; Downloading a Document</h2>
+
+    <h3>View (Eye icon)</h3>
+    <p>
+      Clicking the <strong>eye icon</strong> opens a side panel on the right with the document's full details —
+      name, category, sub-category, author, notes, file size, and dates.
+      The panel also has <strong>View in Drive</strong> and <strong>Download</strong> buttons.
+    </p>
+    <ul>
+      <li><strong>View in Drive</strong> — opens the file inside Google Drive in a new tab (great for previewing PDFs and images online)</li>
+      <li><strong>Download</strong> — triggers a direct file download to your computer without going through Drive</li>
+    </ul>
+
+    <h3>Download (Download icon)</h3>
+    <p>
+      Clicking the <strong>download icon</strong> in the table row directly downloads the file to your
+      device without opening the viewer panel. The portal records a download count each time this is used.
+    </p>
+
+    <div class="box box-tip">
+      <strong>Tip</strong>
+      Use <strong>View in Drive</strong> if you want to preview the file online. Use <strong>Download</strong>
+      if you need to save it locally for offline use or editing.
+    </div>
+  </div>
+
+
+  <!-- 7 ─ EDIT -->
+  <div class="section" id="s7">
+    <h2 class="section-title"><span class="num">7</span> Editing a Document Record</h2>
+    <p>
+      Click the <strong>pencil icon</strong> in the Actions column to open the Edit Document dialog.
+      You can update the following fields:
+    </p>
+    <ul>
+      <li><strong>Document Name</strong> — rename the file entry in the portal (does not rename the file in Drive)</li>
+      <li><strong>Category</strong> — move the document to a different department</li>
+      <li><strong>Sub-Category</strong> — change the sub-group</li>
+      <li><strong>Author</strong> — the original uploader's name (required)</li>
+      <li><strong>Modified By</strong> — enter your own name to record who made this edit (required)</li>
+      <li><strong>Notes</strong> — update or add additional notes</li>
+    </ul>
+    <p>
+      Click <strong>Save</strong> to apply changes. The Modified Date column will automatically update
+      to the current date and time.
+    </p>
+
+    <div class="box box-info">
+      <strong>Note</strong>
+      Editing a document record updates the portal's index only. It does not alter the actual file stored in Google Drive.
+    </div>
+  </div>
+
+
+  <!-- 8 ─ DELETE -->
+  <div class="section" id="s8">
+    <h2 class="section-title"><span class="num">8</span> Deleting a Document</h2>
+    <p>
+      Click the <strong>trash icon</strong> (red) in the Actions column. A confirmation dialog will appear.
+      If you confirm:
+    </p>
+    <ul>
+      <li>The document record is removed from the portal index immediately</li>
+      <li>The portal attempts to delete the file from Google Drive as well</li>
+    </ul>
+
+    <div class="box box-danger">
+      <strong>Permanent Action — Cannot Be Undone</strong>
+      Once deleted, the document is permanently removed from both the portal and Google Drive.
+      Be certain before confirming deletion.
+    </div>
+  </div>
+
+
+  <!-- 9 ─ CATEGORIES -->
+  <div class="section" id="s9">
+    <h2 class="section-title"><span class="num">9</span> Categories &amp; Sub-Categories</h2>
+
+    <h3>Built-in Categories</h3>
+    <p>Three categories are always present and cannot be removed:</p>
+    <table>
+      <thead><tr><th>Category</th><th>Default Sub-Categories</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-mech">Mechanical</span></td><td>General, QC, IQC</td></tr>
+        <tr><td><span class="badge badge-elec">Electronics</span></td><td>General, QC, IQC</td></tr>
+        <tr><td><span class="badge badge-soft">Software</span></td><td>General, QC, IQC</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Adding a Custom Category</h3>
+    <p>Scroll to the bottom of the sidebar and click <strong>+ Add Category</strong>.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <strong>Enter a category name</strong>
+          <span>E.g. "Quality Assurance", "Production", "Finance". An icon is generated automatically from the name.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <strong>Optionally add sub-categories</strong>
+          <span>Type a sub-category name and press Enter or click Add to include it.</span>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <strong>Click Create Category</strong>
+          <span>The new category appears instantly in the sidebar, tab bar, and upload form.</span>
+        </div>
+      </div>
+    </div>
+
+    <h3>Editing or Deleting a Custom Category</h3>
+    <p>
+      In the sidebar, hover over any custom category to reveal the <strong>pencil (edit)</strong> and
+      <strong>trash (delete)</strong> icons. Editing allows you to rename the category and manage its
+      sub-categories. Deleting a category does <em>not</em> delete the documents inside it — they remain
+      in the portal under the old category name.
+    </p>
+
+    <h3>Adding Sub-Categories to Existing Categories</h3>
+    <p>
+      Go to <strong>All Documents</strong> and select a category tab. Click
+      <strong>+ Add Sub</strong> in the sub-category bar to create a new sub-category for that department.
+      To remove a custom sub-category, click the small × next to its name in the sub-category bar.
+    </p>
+  </div>
+
+
+  <!-- 10 ─ DRIVE FILES -->
+  <div class="section" id="s10">
+    <h2 class="section-title"><span class="num">10</span> Google Drive Files</h2>
+    <p>
+      Click <strong>Google Drive Files</strong> in the sidebar to see all documents that have a linked
+      Google Drive file. This page shows only portal documents that are stored in Drive — it does not
+      show your entire Drive.
+    </p>
+    <p>
+      From here you can view the Drive link, download directly, or open the document viewer for full details.
+    </p>
+  </div>
+
+
+  <!-- 11 ─ SIDEBAR -->
+  <div class="section" id="s11">
+    <h2 class="section-title"><span class="num">11</span> Sidebar Navigation</h2>
+    <p>
+      The sidebar on the left is the main navigation panel. It contains links to every section of the portal
+      and a collapsible category tree.
+    </p>
+
+    <h3>Opening and Closing the Sidebar</h3>
+    <p>
+      Click the <strong>hamburger menu icon (☰)</strong> in the top-left of the topbar to toggle the sidebar
+      open or closed. This works on both desktop and mobile. The sidebar opens by default when you first
+      load the portal.
+    </p>
+
+    <h3>Sidebar Sections</h3>
+    <table>
+      <thead><tr><th>Link</th><th>Takes you to</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dashboard</strong></td><td>Home screen with stats and recent documents</td></tr>
+        <tr><td><strong>All Documents</strong></td><td>Full document list with search and filters</td></tr>
+        <tr><td><strong>Upload File</strong></td><td>File upload page</td></tr>
+        <tr><td><strong>Google Drive Files</strong></td><td>Portal documents linked to Drive</td></tr>
+        <tr><td><strong>Categories section</strong></td><td>Expandable list — click a category to browse its sub-categories</td></tr>
+        <tr><td><strong>+ Add Category</strong></td><td>Create a new custom category</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <!-- 12 ─ BEST PRACTICES -->
+  <div class="section" id="s12">
+    <h2 class="section-title"><span class="num">12</span> Best Practices</h2>
+
+    <div class="box box-tip">
+      <strong>Always fill in the Author field</strong>
+      Enter your real name (not a nickname or initials) so the team can trace documents back to the right person.
+    </div>
+    <div class="box box-tip">
+      <strong>Use descriptive file names before uploading</strong>
+      The portal uses the original file name. Rename files like
+      <em>Rev3_Chassis_Drawing_2026.pdf</em> before uploading — it is much easier to search for later.
+    </div>
+    <div class="box box-tip">
+      <strong>Add notes for context</strong>
+      Use the Notes field for revision numbers, related project codes, part numbers, or any information
+      that helps colleagues understand what the document is without opening it.
+    </div>
+    <div class="box box-tip">
+      <strong>Update "Modified By" when editing</strong>
+      Whenever you edit a document record, enter your name in the Modified By field so there is a clear
+      audit trail of who changed what.
+    </div>
+    <div class="box box-warning">
+      <strong>Do not use the Delete button unless necessary</strong>
+      Deletion is permanent and removes the file from Google Drive. If you uploaded the wrong file,
+      upload the correct one and then delete the wrong one.
+    </div>
+  </div>
+
+
+  <!-- 13 ─ FILE TYPES -->
+  <div class="section" id="s13">
+    <h2 class="section-title"><span class="num">13</span> Supported File Types &amp; Limits</h2>
+
+    <table>
+      <thead><tr><th>File Type</th><th>Extensions</th><th>Max Size</th></tr></thead>
+      <tbody>
+        <tr><td>PDF Documents</td><td>.pdf</td><td>50 MB</td></tr>
+        <tr><td>Word Documents</td><td>.doc, .docx</td><td>50 MB</td></tr>
+        <tr><td>Excel Spreadsheets</td><td>.xls, .xlsx</td><td>50 MB</td></tr>
+        <tr><td>OpenDocument Spreadsheet</td><td>.ods</td><td>50 MB</td></tr>
+        <tr><td>Images</td><td>.png, .jpg, .jpeg</td><td>50 MB</td></tr>
+      </tbody>
+    </table>
+
+    <div class="box box-info">
+      <strong>Files above 50 MB</strong>
+      The portal will display an error and skip the file. For very large files, upload them directly to
+      Google Drive and use the portal to create a document record manually via the Edit feature.
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <hr style="border:none; border-top: 1px solid var(--border); margin: 40px 0 20px;" />
+  <p style="text-align:center; color: var(--gray-text); font-size: 12px;">
+    Gen4 Manufacturing Pvt. Ltd. &nbsp;|&nbsp; Document Portal User Guide v1.0 &nbsp;|&nbsp; 15 May 2026<br>
+    Prepared by Jeeva &nbsp;|&nbsp; Live at: gen4-portal.web.app &nbsp;|&nbsp; For issues or feedback, contact the portal administrator.
+  </p>
+
+</div>
+</body>
+</html>
