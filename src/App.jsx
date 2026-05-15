@@ -28,7 +28,7 @@ function AppShell() {
   const subSettings = useSubSettings()
   const [viewDoc, setViewDoc] = useState(null)
   const [toasts, setToasts] = useState([])
-  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [sidebarOpen, setSidebarOpen] = useState(true)
   const location = useLocation()
 
   const addToast = useCallback((message, type = 'success') => {
@@ -57,7 +57,7 @@ function AppShell() {
         addToast={addToast}
       />
       <div className="main-area">
-        <Topbar onMenuClick={() => setSidebarOpen(true)} />
+        <Topbar onMenuClick={() => setSidebarOpen((v) => !v)} />
         <div className="page-content">
           <div className={`page-slot${isDash ? ' active' : ''}`}>
             <Dashboard docs={docs} categories={categories} loading={loading} onView={setViewDoc} />

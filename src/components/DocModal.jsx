@@ -9,13 +9,16 @@ export default function DocModal({ doc: d, categories, subSettings = {}, onClose
   const [subCategory, setSubCategory] = useState(d.subCategory || 'General')
   const [notes, setNotes] = useState(d.notes || '')
   const [author, setAuthor] = useState(d.author || '')
+  const [modifiedBy, setModifiedBy] = useState(d.modifiedBy || d.author || '')
   const [saving, setSaving] = useState(false)
 
   const allCats = [...BUILT_IN_CATS, ...categories.map((c) => c.name)]
   const subs = getCatSubs(category, categories, subSettings)
 
   async function handleSave() {
-    if (!name.trim()) return
+    if (!name.trim()) { addToast('Document name is required', 'error'); return }
+    if (!author.trim()) { addToast('Author name is required', 'error'); return }
+    if (!modifiedBy.trim()) { addToast('Modified By is required', 'error'); return }
     setSaving(true)
     try {
       await updateDoc(doc(db, 'documents', d.id), {
@@ -23,7 +26,9 @@ export default function DocModal({ doc: d, categories, subSettings = {}, onClose
         category,
         subCategory,
         notes,
-        author,
+        author: author.trim(),
+        modifiedBy: modifiedBy.trim(),
+        modifiedDate: new Date().toISOString(),
       })
       addToast('Document updated', 'success')
       onClose()
@@ -55,7 +60,7 @@ export default function DocModal({ doc: d, categories, subSettings = {}, onClose
         </div>
         <div className="modal-body">
           <div className="form-group">
-            <label>Document Name</label>
+            <label>Document Name <span style={{ color: 'var(--danger)' }}>*</span></label>
             <input value={name} onChange={(e) => setName(e.target.value)} />
           </div>
           <div className="form-row">
@@ -72,9 +77,23 @@ export default function DocModal({ doc: d, categories, subSettings = {}, onClose
               </select>
             </div>
           </div>
-          <div className="form-group">
-            <label>Author</label>
-            <input value={author} onChange={(e) => setAuthor(e.target.value)} />
+          <div className="form-row">
+            <div className="form-group">
+              <label>Author (Original Uploader) <span style={{ color: 'var(--danger)' }}>*</span></label>
+              <input
+                value={author}
+                onChange={(e) => setAuthor(e.target.value)}
+                placeholder="Original author name"
+              />
+            </div>
+            <div className="form-group">
+              <label>Modified By <span style={{ color: 'var(--danger)' }}>*</span></label>
+              <input
+                value={modifiedBy}
+                onChange={(e) => setModifiedBy(e.target.value)}
+                placeholder="Who is editing now?"
+              />
+            </div>
           </div>
           <div className="form-group">
             <label>Notes</label>

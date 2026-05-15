@@ -88,6 +88,10 @@ export default function UploadPage({ categories, subSettings = {}, addToast }) {
 
   async function handleUpload() {
     if (files.length === 0) return
+    if (!author.trim()) {
+      addToast('Author name is required before uploading', 'error')
+      return
+    }
     if (!SCRIPT_URL) {
       addToast('Apps Script URL not configured yet', 'error')
       return
@@ -140,14 +144,17 @@ export default function UploadPage({ categories, subSettings = {}, addToast }) {
 
         if (!result.success) throw new Error(result.error || 'Drive upload failed')
 
+        const now = new Date().toISOString()
         await addDoc(collection(db, 'documents'), {
           name: file.name,
           category,
           subCategory,
           notes: description,
-          author: author || 'Gen4 Team',
+          author: author.trim(),
+          modifiedBy: author.trim(),
+          modifiedDate: now,
           size: formatSize(file.size),
-          date: new Date().toISOString(),
+          date: now,
           downloadURL: '',
           driveUrl: result.url,
           driveFileId: result.fileId,
@@ -234,7 +241,7 @@ export default function UploadPage({ categories, subSettings = {}, addToast }) {
           </div>
         </div>
         <div className="form-group">
-          <label>Author</label>
+          <label>Author <span style={{ color: 'var(--danger)' }}>*</span></label>
           <input
             type="text"
             placeholder="Your name"
