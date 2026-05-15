@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      // SPA redirect: save path and redirect to index so React Router can handle it
+      var path = window.location.pathname.replace('/DocVault_Gen4', '') || '/'
+      var search = window.location.search
+      sessionStorage.setItem('spa_redirect', path + search)
+      window.location.replace('/DocVault_Gen4/')
+    </script>
+  </head>
+  <body></body>
+</html>
