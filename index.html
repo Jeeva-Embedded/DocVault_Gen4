@@ -7,6 +7,14 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <title>Gen4 Portal – Document Management</title>
+    <script>
+      // Restore path saved by 404.html for SPA routing
+      var redirect = sessionStorage.getItem('spa_redirect')
+      if (redirect) {
+        sessionStorage.removeItem('spa_redirect')
+        window.history.replaceState(null, '', '/DocVault_Gen4' + redirect)
+      }
+    </script>
   </head>
   <body style="background:#f4f6f8;margin:0">
     <div id="root" style="background:#f4f6f8;height:100%"></div>
