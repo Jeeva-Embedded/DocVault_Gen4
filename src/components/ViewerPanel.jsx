@@ -8,7 +8,7 @@ import {
 } from '@tabler/icons-react'
 import { doc, updateDoc, increment } from 'firebase/firestore'
 import { db } from '../firebase'
-import { formatDate, fileExt } from './utils'
+import { formatDate, fileExt, driveDownloadUrl } from './utils'
 import DocModal from './DocModal'
 
 function MetaItem({ label, value }) {
@@ -22,23 +22,24 @@ function MetaItem({ label, value }) {
 
 function FilePreview({ doc: d }) {
   const ext = fileExt(d.name)
-  const url = d.downloadURL || d.driveUrl
+  const viewUrl = d.driveUrl || d.downloadURL
+  const dlUrl = driveDownloadUrl(d.driveUrl, d.driveFileId) || d.downloadURL
 
-  if (!url) return <div className="preview-placeholder"><IconFile size={48} /><p>No preview available</p></div>
+  if (!viewUrl) return <div className="preview-placeholder"><IconFile size={48} /><p>No preview available</p></div>
 
   if (['png', 'jpg', 'jpeg', 'gif', 'webp'].includes(ext)) {
-    return <img src={url} alt={d.name} className="preview-image" />
+    return <img src={viewUrl} alt={d.name} className="preview-image" />
   }
 
   if (ext === 'pdf') {
-    return <iframe src={url} title={d.name} className="preview-iframe" />
+    return <iframe src={viewUrl} title={d.name} className="preview-iframe" />
   }
 
   return (
     <div className="preview-placeholder">
       <IconFile size={48} />
       <p>{d.name}</p>
-      <a href={url} download className="btn btn-primary">Download to view</a>
+      <a href={dlUrl} target="_blank" rel="noopener noreferrer" className="btn btn-primary">Download to view</a>
     </div>
   )
 }
@@ -47,7 +48,7 @@ export default function ViewerPanel({ doc: d, categories, subSettings = {}, onCl
   const [editing, setEditing] = useState(false)
 
   async function handleDownload() {
-    const url = d.downloadURL || d.driveUrl
+    const url = driveDownloadUrl(d.driveUrl, d.driveFileId) || d.downloadURL
     if (!url) return
     window.open(url, '_blank')
     try {

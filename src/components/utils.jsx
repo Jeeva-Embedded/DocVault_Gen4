@@ -33,6 +33,15 @@ export function fileTypeIcon(name) {
   return <IconFile size={18} color="var(--text-muted)" />
 }
 
+export function driveDownloadUrl(driveUrl, fileId) {
+  const id = fileId || (() => {
+    const m = (driveUrl || '').match(/\/d\/([a-zA-Z0-9_-]+)/) ||
+              (driveUrl || '').match(/[?&]id=([a-zA-Z0-9_-]+)/)
+    return m ? m[1] : null
+  })()
+  return id ? `https://drive.google.com/uc?export=download&id=${id}` : (driveUrl || '')
+}
+
 export function formatSize(bytes) {
   if (!bytes) return '—'
   if (bytes < 1024) return bytes + ' B'

@@ -9,7 +9,7 @@ import {
 } from '@tabler/icons-react'
 import { doc, updateDoc, deleteDoc, increment, arrayRemove } from 'firebase/firestore'
 import { db } from '../firebase'
-import { formatDate, fileTypeIcon, BUILT_IN_CATS, getCatSubs } from './utils'
+import { formatDate, fileTypeIcon, BUILT_IN_CATS, getCatSubs, driveDownloadUrl } from './utils'
 import DocModal from './DocModal'
 import SubCatModal from './SubCatModal'
 
@@ -64,7 +64,7 @@ export default function Documents({ docs, categories, subSettings = {}, loading,
   }, [docs, activeCat, subParam, search])
 
   async function handleDownload(d) {
-    const url = d.downloadURL || d.driveUrl
+    const url = driveDownloadUrl(d.driveUrl, d.driveFileId) || d.downloadURL
     if (!url) return
     window.open(url, '_blank')
     try {
