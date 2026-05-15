@@ -8,9 +8,8 @@ import {
   IconSettings2,
   IconCircuitDiode,
   IconCode,
-  IconFolder,
 } from '@tabler/icons-react'
-import { formatDate, fileTypeIcon } from './utils'
+import { formatDate, fileTypeIcon, getCategoryIcon } from './utils'
 
 const BUILT_IN_CATS = [
   { name: 'Mechanical', slug: 'mechanical', icon: <IconSettings2 size={28} />, color: 'var(--badge-mechanical)' },
@@ -37,7 +36,7 @@ export default function Dashboard({ docs, categories, loading, onView }) {
   const allCats = [...BUILT_IN_CATS, ...categories.map((c) => ({
     name: c.name,
     slug: c.name.toLowerCase().replace(/\s+/g, '-'),
-    icon: <IconFolder size={28} />,
+    icon: getCategoryIcon(c.name, 28),
     color: 'var(--badge-custom)',
   }))]
 
