@@ -19,6 +19,7 @@ import { doc, deleteDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import CatModal from './CatModal'
 import EditCatModal from './EditCatModal'
+import { getCategoryIcon } from './utils'
 
 const BUILT_IN = [
   { name: 'Mechanical', icon: <IconSettings2 size={18} />, slug: 'mechanical', subs: ['QC', 'IQC'] },
@@ -130,7 +131,7 @@ export default function Sidebar({ categories, subSettings = {}, open, onClose, a
           {categories.map((cat) => (
             <CatItem
               key={cat.id}
-              cat={{ ...cat, icon: <span className={`ti ${cat.icon}`} style={{ fontSize: 16 }} /> }}
+              cat={{ ...cat, icon: getCategoryIcon(cat.name, 18) }}
               slug={cat.name.toLowerCase().replace(/\s+/g, '-')}
               catData={cat}
               subSettings={subSettings}

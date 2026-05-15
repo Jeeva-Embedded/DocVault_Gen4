@@ -4,7 +4,6 @@ import { db } from '../firebase'
 
 export default function CatModal({ onClose }) {
   const [name, setName] = useState('')
-  const [icon, setIcon] = useState('ti-folder')
   const [subs, setSubs] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -18,20 +17,11 @@ export default function CatModal({ onClose }) {
         .map((s) => s.trim())
         .filter(Boolean)
 
-      const catData = {
+      await addDoc(collection(db, 'categories'), {
         name: name.trim(),
-        icon: icon.trim() || 'ti-folder',
         subs: subList,
         createdAt: new Date().toISOString(),
-      }
-
-      await addDoc(collection(db, 'categories'), catData)
-
-      // localStorage fallback
-      try {
-        const existing = JSON.parse(localStorage.getItem('gen4_categories') || '[]')
-        localStorage.setItem('gen4_categories', JSON.stringify([...existing, catData]))
-      } catch {}
+      })
 
       onClose()
     } catch (e) {
@@ -52,22 +42,16 @@ export default function CatModal({ onClose }) {
           <div className="form-group">
             <label>Category Name</label>
             <input
+              autoFocus
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="e.g. Electrical"
+              onKeyDown={(e) => e.key === 'Enter' && handleSave()}
+              placeholder="e.g. Electrical, Production, R&D…"
             />
+            <small className="form-hint">An icon will be chosen automatically from the name.</small>
           </div>
           <div className="form-group">
-            <label>Icon (Tabler icon class)</label>
-            <input
-              value={icon}
-              onChange={(e) => setIcon(e.target.value)}
-              placeholder="e.g. ti-bolt"
-            />
-            <small className="form-hint">Any class from tabler-icons.io</small>
-          </div>
-          <div className="form-group">
-            <label>Sub-categories (comma separated)</label>
+            <label>Sub-categories <span style={{ fontWeight: 400, color: 'var(--text-muted)' }}>(comma separated, optional)</span></label>
             <input
               value={subs}
               onChange={(e) => setSubs(e.target.value)}
