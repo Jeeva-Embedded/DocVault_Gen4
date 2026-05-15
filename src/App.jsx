@@ -99,7 +99,7 @@ function AppShell() {
 
 export default function App() {
   return (
-    <BrowserRouter basename="/DocVault_Gen4/">
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <AppShell />
     </BrowserRouter>
   )

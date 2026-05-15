@@ -3,5 +3,5 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/DocVault_Gen4/',
+  base: process.env.VITE_BASE_PATH || '/DocVault_Gen4/',
 })
